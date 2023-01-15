@@ -1,0 +1,4 @@
+flask
+flask_assets
+flask_babel
+flask-caching

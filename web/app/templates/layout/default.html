@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title -%}{{ config.SITE_NAME }}{%- endblock %}</title>
+    {% assets "js_all" -%}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {%- endassets %}
+    {% assets "css_all" -%}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {%- endassets %}
+  </head>
+  <body>
+    <div class="container">
+{% block header -%}
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      {% if request.endpoint == "boxes.homepage" %}
+      <h1 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+      </h1>
+      {% else %}
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+      </a>
+      {% endif %}
+      <img alt="boxes.py-Logo" src="/static/boxes-logo.svg" width="120">
+    </header>
+{%- endblock %}
+
+{% block body -%}
+{%- endblock %}
+
+{% block footer -%}
+<footer class="py-3 my-4">
+    <hr />
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item">
+        <form>
+          <select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>
+            """ % language +
+            \ ("<option value='' selected></option>" if not language else "") + \
+            "\n".join(
+            ("<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
+            for l in self.getLanguages())) + """
+          </select>
+        </form>
+      </li>
+      <li class="nav-item">
+          <a href="https://florianfesti.github.io/boxes/html/usermanual.html" class="nav-link px-2 text-muted">
+              {% trans %}Help{% endtrans %}
+          </a>
+      </li>
+      <li class="nav-item">
+          <a href="https://hackaday.io/project/10649-boxespy" class="nav-link px-2 text-muted">
+              {% trans %}Home Page{% endtrans %}
+          </a>
+      </li>
+      <li class="nav-item">
+          <a href="https://florianfesti.github.io/boxes/html/index.html" class="nav-link px-2 text-muted">
+              {% trans %}Documentation{% endtrans %}
+          </a>
+      </li>
+      <li class="nav-item">
+          <a href="https://github.com/florianfesti/boxes" class="nav-link px-2 text-muted">
+              {% trans %}Sources{% endtrans %}
+          </a>
+      </li>
+    </ul>
+    <p class="text-center text-muted">
+        <span class="text-muted"><i class="fa fa-clock-o"></i> {{ g.request_time() }}</span>
+    </p>
+  </footer>
+{%- endblock %}
+    </div>
+  </body>
+</html>

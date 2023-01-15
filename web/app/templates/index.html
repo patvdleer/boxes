@@ -1,0 +1,32 @@
+{% extends "layout/default.html" %}
+
+{% block body %}
+<main>
+<p>{% trans %}Create boxes and more with a laser cutter!{% endtrans %}</p>
+<p>
+  <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.
+</p>
+</main>
+{% endblock %}
+
+{% block header -%}
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <div class="dropdown d-flex align-items-center mb-3 mb-md-0 me-md-auto ">
+        {% if request.endpoint == "boxes.homepage" %}
+        <h1 class="text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+        </h1>
+        {% else %}
+        <a href="/" class="text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+        </a>
+        {% endif %}
+        <ul class="dropdown-menu text-small shadow">
+          {% for ui_group in group_box_models.values() %}
+            <li><a class="dropdown-item" href="{{ url_for('.view_group', group_name=ui_group.name) }}">{{ ui_group.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <img alt="boxes.py-Logo" src="/static/boxes-logo.svg" width="120">
+    </header>
+{%- endblock %}
