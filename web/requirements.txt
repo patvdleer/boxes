@@ -1,3 +1,5 @@
+requests
+markdown
 flask
 flask_assets
 flask_babel
