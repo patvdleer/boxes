@@ -1,0 +1,22 @@
+{% extends "layout/default.html" %}
+
+{% block title %}
+    Boxes.py - {{ group_name }}
+{% endblock %}
+
+{% block body %}
+<main>
+    <h1 class="text-decoration-none">
+        <span class="fs-1">{{ group.name }}</span>
+    </h1>
+    <p>{{ group.description }}</p>
+    <ul class="list-group list-group-flush">
+        {% for generator in group.generators %}
+        <li class="list-group-item">
+            <a href="{{ url_for('.view_box', group_name=group.name, box_name=generator.__name__) }}">{{ generator.__name__ }}</a>
+            <span>{{ generator.__doc__ }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}

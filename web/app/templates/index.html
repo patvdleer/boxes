@@ -8,25 +8,3 @@
 </p>
 </main>
 {% endblock %}
-
-{% block header -%}
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <div class="dropdown d-flex align-items-center mb-3 mb-md-0 me-md-auto ">
-        {% if request.endpoint == "boxes.homepage" %}
-        <h1 class="text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
-        </h1>
-        {% else %}
-        <a href="/" class="text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
-        </a>
-        {% endif %}
-        <ul class="dropdown-menu text-small shadow">
-          {% for ui_group in group_box_models.values() %}
-            <li><a class="dropdown-item" href="{{ url_for('.view_group', group_name=ui_group.name) }}">{{ ui_group.name }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-      <img alt="boxes.py-Logo" src="/static/boxes-logo.svg" width="120">
-    </header>
-{%- endblock %}

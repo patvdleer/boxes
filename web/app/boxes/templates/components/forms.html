@@ -1,0 +1,101 @@
+{% macro render_action_input(group, action) %}
+    {% set value = action.value if action.value else action.default %}
+    <div class="row">
+        <label for="{{ action.name }}" class="col-sm-2 col-form-label col-form-label-sm">{{ action.viewname | title }}</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control form-control-sm" id="{{ action.name }}" name="{{ action.name }}" value="{{ value }}" {% if action.required %}required{% endif %} />
+        </div>
+        <div class="col-sm-8">
+            {% if action.help %}
+            <span class="help-block">{{ action.help | safe }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_action_select(group, action) %}
+    {% set value = action.value if action.value else actiondefault %}
+    <div class="row">
+        <label for="{{ action.name }}" class="col-sm-2 col-form-label col-form-label-sm">{{ action.viewname | title }}</label>
+        <div class="col-sm-2">
+            <select class="form-select form-select-sm" id="{{ action.name }}" name="{{ action.name }}" {% if action.required %}required{% endif %}>
+                {% for choice in action.choices %}
+                    {% if choice == value %}
+                        <option selected="selected" value="{{ choice }}">{{ choice }}</option>
+                    {% else %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-8">
+            {% if action.help %}
+            <span class="help-block">{{ action.help | safe }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_action_textarea(group, action) %}
+    {% set value = action.value if action.value else actiondefault %}
+    <div class="row">
+        <label for="{{ action.name }}" class="col-sm-2 col-form-label col-form-label-sm">{{ action.viewname | title }}</label>
+        <div class="col-sm-2">
+            <textarea id="{{ action.name }}" name="{{ action.name }}">{{ value }}</textarea>
+        </div>
+        <div class="col-sm-8">
+            {% if action.help %}
+            <span class="help-block">{{ action.help | safe }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_action_custom(group, action) %}
+    <div class="row">
+        <label for="{{ action.name }}" class="col-sm-2 col-form-label col-form-label-sm">{{ action.viewname | title }}</label>
+        <div class="col-sm-2">
+            {{ action.input_html | safe }}
+        </div>
+        <div class="col-sm-8">
+            {% if action.help %}
+            <span class="help-block">{{ action.help | safe }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro render_action(group, action) %}
+    {% if action.input_type == "input" %}
+        {{ render_action_input(group, action) }}
+    {% elif action.input_type == "select" %}
+        {{ render_action_select(group, action) }}
+    {% elif action.input_type == "custom" %}
+        {{ render_action_custom(group, action) }}
+    {% elif action.input_type == "textarea" %}
+        {{ render_action_textarea(group, action) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro render_box_form(box) %}
+<div class="accordion">
+    {% for group in box.form %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="accordion-heading-{{ loop.index }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-panel-{{ loop.index }}" aria-expanded="true" aria-controls="accordion-panel-{{ loop.index }}">
+                {{ group.title }}
+            </button>
+        </h2>
+        <div id="accordion-panel-{{ loop.index }}" class="accordion-collapse collapse" aria-expanded="false" aria-labelledby="accordion-heading-{{ loop.index }}">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    {% for action in group.actions %}
+                        {{ render_action(group, action) }}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endmacro %}

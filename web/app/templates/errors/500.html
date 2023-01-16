@@ -1,0 +1,16 @@
+{% extends "layout/default.html" %}
+
+{% block title %}Error...{% endblock %}
+
+{% block body %}
+  <main>
+    <h1>{% trans %}Error...{% endtrans %}</h1>
+    <p>{% trans %}Something went wrong...{% endtrans %}</p>
+
+    <p>
+        {{ error }}
+    </p>
+
+    <p><a href="{{ url_for('index') }}">{% trans %}Go somewhere nice{% endtrans %}</a></p>
+  </main>
+{% endblock %}

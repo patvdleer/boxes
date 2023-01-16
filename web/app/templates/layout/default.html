@@ -10,21 +10,32 @@
     {% assets "css_all" -%}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {%- endassets %}
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='boxes-logo.svg') }}" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
   </head>
   <body>
     <div class="container">
 {% block header -%}
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      {% if request.endpoint == "boxes.homepage" %}
-      <h1 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
-      </h1>
-      {% else %}
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <span class="fs-1" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
-      </a>
-      {% endif %}
-      <img alt="boxes.py-Logo" src="/static/boxes-logo.svg" width="120">
+      <div class="dropdown d-flex align-items-center mb-3 mb-md-0 me-md-auto ">
+        {% if request.endpoint == "boxes.homepage" %}
+        <h1 class="text-decoration-none">
+          <span class="display-4" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+        </h1>
+        {% else %}
+        <a href="/" class="text-dark text-decoration-none">
+          <span class="display-4" style="font-family: 'Bungee Shade', cursive;">Boxes.py</span>
+        </a>
+        {% endif %}
+        <a href="#" class="display-6 text-dark text-decoration-none dropdown-toggle" style="margin-left:8px;" data-bs-toggle="dropdown" aria-expanded="false"></a>
+        <ul class="dropdown-menu text-small shadow">
+          {% for ui_group in group_box_models.values() %}
+            <li><a class="dropdown-item" href="{{ url_for('.view_group', group_name=ui_group.name) }}">{{ ui_group.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <img alt="boxes.py-Logo" src="{{ url_for('static', filename='boxes-logo.svg') }}" width="120">
     </header>
 {%- endblock %}
 
@@ -38,11 +49,7 @@
       <li class="nav-item">
         <form>
           <select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>
-            """ % language +
-            \ ("<option value='' selected></option>" if not language else "") + \
-            "\n".join(
-            ("<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
-            for l in self.getLanguages())) + """
+
           </select>
         </form>
       </li>

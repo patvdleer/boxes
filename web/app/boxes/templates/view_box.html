@@ -1,0 +1,27 @@
+{% extends "layout/default.html" %}
+{% from 'components/forms.html' import render_box_form %}
+
+{% block title %}
+    Boxes.py - {{ group_name }} - {{ box_name }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ box_name }}</h1>
+    <p>{{ box.__doc__ }}</p>
+    <form method="GET" action="{{ request.url }}">
+        <div class="mb-3">
+            {{ render_box_form(box) }}
+        </div>
+        <div class="btn-group" role="group" aria-label="render options">
+            <button type="submit" name="render" value="1" class="btn btn-primary">{% trans %}Generate{% endtrans %}</button>
+            <button type="submit" name="render" value="2" class="btn btn-primary">{% trans %}Download{% endtrans %}</button>
+            <button type="submit" name="render" value="0" class="btn btn-primary">{% trans %}Save to URL{% endtrans %}</button>
+        </div>
+    </form>
+    {% if box.description %}
+    <hr />
+    <p>{{ box.description }}</p>
+    {% endif %}
+</div>
+{% endblock %}
