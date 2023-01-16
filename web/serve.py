@@ -38,7 +38,7 @@ parser.add_argument(
     help="Port to run webservice for on",
     required=True,
     type=int,
-    default=9091,
+    default=8001,
     dest="port",
 )
 parser.add_argument(
