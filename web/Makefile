@@ -21,6 +21,8 @@ update_translations: ## Update translations
 compile_translations: ## Compile translations
 	pybabel compile -d translations
 
+build_docker: ## Build docker
+	docker build -t boxespy-flask .
 
 help:
 	@## http://www.network-science.de/ascii/ ; Font: smslant; Adjustment: left; Stretch: yes; Width: 120;

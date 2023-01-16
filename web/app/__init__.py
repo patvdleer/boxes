@@ -1,8 +1,15 @@
 import os
+import sys
 import time
 
 import requests
 from flask import Flask, g, render_template, request, send_from_directory
+
+try:
+    import boxes.generators
+except ImportError:
+    sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+    import boxes.generators
 
 from . import config
 from .assets import assets
@@ -32,7 +39,6 @@ def create_app(config=config.base_config):
         """Prepare some things before the application handles a request."""
         g.request_start_time = time.time()
         g.request_time = lambda: '%.5fs' % (time.time() - g.request_start_time)
-        g.pjax = 'X-PJAX' in request.headers
 
     @app.route('/', methods=['GET'])
     def index():
