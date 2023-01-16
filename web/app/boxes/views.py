@@ -1,4 +1,5 @@
 import mimetypes
+import os
 import sys
 import tempfile
 import traceback
@@ -56,7 +57,7 @@ def render_box(box: Boxes, args: Dict[str, str], as_attachment=False) -> Respons
 
     try:
         fd, box.output = tempfile.mkstemp()
-        # box.metadata["url"] = self.getURL(environ)
+        box.metadata["url"] = request.url
         box.open()
         box.render()
         box.close()
@@ -64,7 +65,12 @@ def render_box(box: Boxes, args: Dict[str, str], as_attachment=False) -> Respons
         if not isinstance(e, ValueError):
             print("Exception during rendering:", file=sys.stderr)
             traceback.print_exc()
-        abort(500, e)
-    # http_headers.append(('Content-Disposition', 'attachment; filename="%s.%s"' % (box.__class__.__name__, extension)))
-    # [('Content-type', 'application/unknown; charset=utf-8')])[:]
-    return send_file(box.output, download_name=f"{box.__class__.__name__}.{extension}", as_attachment=as_attachment)
+        return abort(500, e)
+    response = send_file(
+        box.output,
+        download_name=f"{box.__class__.__name__}.{extension}",
+        as_attachment=as_attachment
+    )
+    os.close(fd)
+    os.remove(box.output)
+    return response
