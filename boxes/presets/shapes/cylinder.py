@@ -6,6 +6,7 @@ from .circle import Circle
 
 @dataclass
 class Cylinder(Circle):
+    _n_dimensions = 3
     height: float
 
     @property

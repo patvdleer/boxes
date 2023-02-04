@@ -1,17 +1,19 @@
 from dataclasses import dataclass
 
-from boxes.presets.categories.battery import Battery
 from boxes.presets.products.product import Product
 from boxes.presets.registry import register
 from boxes.presets.shapes.cylinder import Cylinder
 
 
 @dataclass
-class LiPo(Product, Cylinder, Battery):
+class LiPo(Product, Cylinder):
     """ LiPo battery
 
     source: https://en.wikipedia.org/wiki/List_of_battery_sizes#Lithium-ion_batteries_(rechargeable)
     """
+    categories = [
+        "Battery"
+    ]
 
 
 register([

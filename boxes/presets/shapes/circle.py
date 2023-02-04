@@ -1,9 +1,12 @@
 import math
 from dataclasses import dataclass
 
+from .shape import Shape
+
 
 @dataclass
-class Circle:
+class Circle(Shape):
+    _n_dimensions = 2
     diameter: float
 
     @property
