@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 
-from boxes.presets.categories.battery import Battery
 from boxes.presets.products.product import Product
 from boxes.presets.registry import register
 from boxes.presets.shapes.cylinder import Cylinder
 
 
 @dataclass
-class CoinCell(Product, Cylinder, Battery):
+class CoinCell(Product, Cylinder):
     """ Coin cell battery
 
     Name is in IEC
@@ -15,6 +14,9 @@ class CoinCell(Product, Cylinder, Battery):
     source: https://en.wikipedia.org/wiki/List_of_battery_sizes#Button_cells_%E2%80%93_coin,_watch
     """
     ansi: str = None
+    categories = [
+        "Battery"
+    ]
 
 
 register([

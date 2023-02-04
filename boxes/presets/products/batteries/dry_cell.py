@@ -1,18 +1,19 @@
 from dataclasses import dataclass
 
-from boxes.presets.categories.battery import Battery
 from boxes.presets.products.product import Product
 from boxes.presets.registry import register
 from boxes.presets.shapes.cylinder import Cylinder
 
 
 @dataclass
-class DryCellCylindrical(Product, Cylinder, Battery):
+class DryCellCylindrical(Product, Cylinder):
     """ DryCell cylindrical battery
 
     source: https://en.wikipedia.org/wiki/List_of_battery_sizes#Cylindrical_batteries
     """
-    pass
+    categories = [
+        "Battery"
+    ]
 
 
 register([

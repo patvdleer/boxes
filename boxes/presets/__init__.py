@@ -8,4 +8,5 @@ def get_presets():
     global PRESETS
     PRESETS = Registry().presets
 
+
 get_presets()
