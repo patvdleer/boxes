@@ -77,6 +77,43 @@
     {% endif %}
 {% endmacro %}
 
+{% macro render_presets_modal(box) %}
+ <div class="modal fade" id="boxPresetModal" tabindex="-1" aria-labelledby="boxPresetModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="boxPresetModalLabel">Presets</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <script>
+          preset_data = {{ box.presets.to_json()|safe }};
+      </script>
+
+      <div class="modal-body">
+          <select id="boxPresetModalSelect">
+          {%- for category, preset in box.presets.categorised().items() %}
+            <optgroup label="{{ category }}">
+            {%- for preset_name in preset.keys() %}
+                <option value="{{ preset_name }}">{{ preset_name }}</option>
+            {%- endfor %}
+            </optgroup>
+          {%- endfor %}
+          </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$('#boxPresetModalSelect').select2({
+    theme: 'bootstrap-5'
+});
+</script>
+{% endmacro %}
+
 {% macro render_box_form(box) %}
 <div class="accordion">
     {% for group in box.form %}

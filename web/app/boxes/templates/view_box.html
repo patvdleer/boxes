@@ -1,5 +1,5 @@
 {% extends "layout/default.html" %}
-{% from 'components/forms.html' import render_box_form %}
+{% from 'components/forms.html' import render_box_form, render_presets_modal %}
 
 {% block title %}
     Boxes.py - {{ group_name }} - {{ box_name }}
@@ -7,8 +7,20 @@
 
 {% block body %}
 <div class="container">
+
+    {%- if box.presets %}
+      <div class="float-end">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#boxPresetModal">
+          Presets
+        </button>
+      </div>
+    {% endif %}
+
     <h1>{{ box_name }}</h1>
     <p>{{ box.__doc__ }}</p>
+
+    {{ render_presets_modal(box) }}
+
     <form method="GET" action="{{ request.url }}">
         <div class="mb-3">
             {{ render_box_form(box) }}
