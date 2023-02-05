@@ -78,6 +78,7 @@
 {% endmacro %}
 
 {% macro render_presets_modal(box) %}
+{% if box.presets %}
  <div class="modal fade" id="boxPresetModal" tabindex="-1" aria-labelledby="boxPresetModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -153,6 +154,7 @@ $(document).ready(function() {
     });
 });
 </script>
+{% endif %}
 {% endmacro %}
 
 {% macro render_box_form(box) %}
