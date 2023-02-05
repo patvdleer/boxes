@@ -56,7 +56,10 @@ def register_extensions(app, config_):
         return request.accept_languages.best_match(config_.SUPPORTED_LOCALES)
 
     assets.init_app(app)
-    babel.init_app(app, locale_selector=get_locale)
+    try:
+        babel.init_app(app, locale_selector=get_locale)
+    except TypeError:
+        babel.init_app(app)
     cache.init_app(app)
 
 
