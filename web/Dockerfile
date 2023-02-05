@@ -1,7 +1,9 @@
-FROM python:3.10-alpine AS builder
-RUN apk update
+FROM python:3.10-bullseye AS builder
 # g++ make geos-dev for shapely
-RUN apk add git g++ make geos-dev
+# RUN apk update && apk add git g++ make geos-dev
+RUN set -eux; \
+    apt update; \
+    apt install -y --no-install-recommends python3-shapely python3-numpy
 WORKDIR /tmp
 COPY requirements.txt /tmp
 RUN pip3 install -r requirements.txt

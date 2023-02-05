@@ -24,6 +24,9 @@ compile_translations: ## Compile translations
 build_docker: ## Build docker
 	docker build -t boxespy-flask .
 
+run_docker: ## Run in docker
+	docker run -ti -p 8001:8001 boxespy-flask:latest
+
 help:
 	@## http://www.network-science.de/ascii/ ; Font: smslant; Adjustment: left; Stretch: yes; Width: 120;
 	@echo '______                                             '
