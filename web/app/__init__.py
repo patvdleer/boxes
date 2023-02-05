@@ -22,17 +22,9 @@ def create_app(config=config.base_config):
     app = Flask(__name__)
     app.config.from_object(config)
 
-    register_extensions(app)
+    register_extensions(app, config)
     register_blueprints(app)
     register_errorhandlers(app)
-    post_register_extensions(app)
-
-    def get_locale():
-        """Returns the locale to be used for the incoming request."""
-        return request.accept_languages.best_match(config.SUPPORTED_LOCALES)
-
-    if babel.locale_selector_func is None:
-        babel.locale_selector_func = get_locale
 
     @app.before_request
     def before_request():
@@ -56,18 +48,16 @@ def create_app(config=config.base_config):
     return app
 
 
-def register_extensions(app):
+def register_extensions(app, config_):
     """Register extensions with the Flask application."""
-    assets.init_app(app)
-    babel.init_app(app)
-    cache.init_app(app)
 
-
-def post_register_extensions(app):
-    @babel.localeselector
     def get_locale():
-        translations = [str(translation) for translation in babel.list_translations()]
-        return request.accept_languages.best_match(translations)
+        """Returns the locale to be used for the incoming request."""
+        return request.accept_languages.best_match(config_.SUPPORTED_LOCALES)
+
+    assets.init_app(app)
+    babel.init_app(app, locale_selector=get_locale)
+    cache.init_app(app)
 
 
 def register_errorhandlers(app):

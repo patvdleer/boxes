@@ -85,31 +85,72 @@
         <h1 class="modal-title fs-5" id="boxPresetModalLabel">Presets</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <script>
-          preset_data = {{ box.presets.to_json()|safe }};
-      </script>
-
       <div class="modal-body">
-          <select id="boxPresetModalSelect">
-          {%- for category, preset in box.presets.categorised().items() %}
-            <optgroup label="{{ category }}">
-            {%- for preset_name in preset.keys() %}
-                <option value="{{ preset_name }}">{{ preset_name }}</option>
-            {%- endfor %}
-            </optgroup>
-          {%- endfor %}
-          </select>
+          <div class="container-fluid">
+              <select id="boxPresetModalSelect">
+                <option></option>
+              {%- for category, preset in box.presets.categorised().items() %}
+                <optgroup label="{{ category }}">
+                {%- for preset_name in preset.keys() %}
+                    <option value="{{ preset_name }}">{{ preset_name }}</option>
+                {%- endfor %}
+                </optgroup>
+              {%- endfor %}
+              </select>
+          </div>
+          <div class="container-fluid" id="boxPresetModalInfo">
+
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Apply</button>
+        <button id="boxPresetModalApplyBtn" type="button" class="btn btn-primary" disabled="disabled" onclick="boxPresetModalApply(this)">Apply</button>
       </div>
     </div>
   </div>
 </div>
 <script>
-$('#boxPresetModalSelect').select2({
-    theme: 'bootstrap-5'
+preset_data = {{ box.presets.flat()|safe }};
+function boxPresetModalApply() {
+    const selected = $('#boxPresetModalSelect').select2('data')[0];
+    if(selected.text === "") {
+        return;
+    }
+    const selectedData = preset_data[selected.text];
+    $("#boxPresetModal").modal("hide");
+    for (const [key, value] of Object.entries(selectedData)) {
+        $("#"+key).val(value);
+        $("#"+key).parents(".accordion-item").find("[aria-expanded=false]").collapse("show");
+        const d = 400;
+        $("#"+key).fadeOut(d).fadeIn(d)
+            .fadeOut(d).fadeIn(d)
+            .fadeOut(d).fadeIn(d);
+    }
+}
+$(document).ready(function() {
+    $('#boxPresetModalSelect').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $('#boxPresetModal'),
+        placeholder: "Select a preset",
+        allowClear: true,
+    });
+    $('#boxPresetModalSelect').val(null).trigger("change");
+    $('#boxPresetModalSelect').on('select2:select', function (e) {
+        $("#boxPresetModalApplyBtn").removeAttr("disabled");
+        const selectedData = e.params.data;
+        const data = preset_data[selectedData.text];
+        $('#boxPresetModalInfo').html("<hr />");
+        for (const [key, value] of Object.entries(data)) {
+            $('#boxPresetModalInfo').append(
+            `<div class="row">
+                <label for="boxPresetModalInfo${key}" class="col-sm-4 col-form-label">${key}</label>
+                <div class="col-sm-8">
+                    <input type="text" readonly class="form-control-plaintext" id="boxPresetModalInfo${key}" value="${value}">
+                </div>
+            </div>`
+            );
+        }
+    });
 });
 </script>
 {% endmacro %}
@@ -135,4 +176,10 @@ $('#boxPresetModalSelect').select2({
     </div>
     {% endfor %}
 </div>
+<script>
+$(document).ready(function() {
+    // fix for some custom selects
+    $('select:not(.form-select)').addClass("form-select form-select-sm");
+});
+</script>
 {% endmacro %}

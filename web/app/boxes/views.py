@@ -5,6 +5,7 @@ import tempfile
 import traceback
 from typing import List, Dict
 
+import markdown
 from flask import render_template, abort, Response, request, send_file
 
 from boxes import Boxes
@@ -33,6 +34,8 @@ def view_box(group_name: str, box_name: str):
         abort(404)
     box = box_cls()
     box.form = get_box_form_filled(box, request.args)
+    if box.description:
+        box.description_html = markdown.markdown(box.description).replace("src=\"static", "src=\"/static")
     render = request.args.get("render", "0")
     if render in ["1", "2"]:
         return render_box(box, request.args, render == "2")

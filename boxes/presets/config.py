@@ -13,7 +13,7 @@ class PresetConfig:
         for k, v in mappings.items():
             self.add(k, v)
 
-    def add(self, klass: type[Shape], mapping: List[Union[Tuple, Dict]]):
+    def add(self, klass: Type[Shape], mapping: List[Union[Tuple, Dict]]):
         self.mapping[klass] = mapping
 
     def to_json(self):

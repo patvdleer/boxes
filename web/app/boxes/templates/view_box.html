@@ -33,7 +33,11 @@
     </form>
     {% if box.description %}
     <hr />
-    <p>{{ box.description }}</p>
+    {%- if box.description_html %}
+        <p>{{ box.description_html|safe }}</p>
+    {% else %}
+        <p>{{ box.description }}</p>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
