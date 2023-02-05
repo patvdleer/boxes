@@ -17,13 +17,13 @@ class DryCellCylindrical(Product, Cylinder):
 
 
 register([
-    DryCellCylindrical(name="AA", height=50.5, diameter=14.5),
-    DryCellCylindrical(name="AAA", height=44.5, diameter=10.5),
-    DryCellCylindrical(name="AAAA", height=42.5, diameter=8.3),
-    DryCellCylindrical(name="B", height=60, diameter=21.5),
-    DryCellCylindrical(name="C", height=50, diameter=26.2),
-    DryCellCylindrical(name="D", height=61.5, diameter=34.2),
-    DryCellCylindrical(name="N", height=30.2, diameter=12),
-    DryCellCylindrical(name="A23", height=28.5, diameter=10.3),
-    DryCellCylindrical(name="A27", height=28.2, diameter=8),
+    DryCellCylindrical(name="AA", diameter=50.5, height=14.5),
+    DryCellCylindrical(name="AAA", diameter=44.5, height=10.5),
+    DryCellCylindrical(name="AAAA", diameter=42.5, height=8.3),
+    DryCellCylindrical(name="B", diameter=60, height=21.5),
+    DryCellCylindrical(name="C", diameter=50, height=26.2),
+    DryCellCylindrical(name="D", diameter=61.5, height=34.2),
+    DryCellCylindrical(name="N", diameter=30.2, height=12),
+    DryCellCylindrical(name="A23", diameter=28.5, height=10.3),
+    DryCellCylindrical(name="A27", diameter=28.2, height=8),
 ])
